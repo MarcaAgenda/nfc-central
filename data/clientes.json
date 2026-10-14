@@ -1,0 +1,21 @@
+{
+  "versao": 1,
+  "clientes": [
+    {
+      "nome": "Demonstração NFC",
+      "slug": "demo",
+      "descricao": "Encoste, descubra e conecte-se.",
+      "tema": "blue",
+      "status": "ativo",
+      "links": {
+        "google": "",
+        "instagram": "https://www.instagram.com/carloss_lopes/",
+        "whatsapp": "",
+        "maps": "",
+        "menu": "",
+        "booking": "",
+        "website": ""
+      }
+    }
+  ]
+}
