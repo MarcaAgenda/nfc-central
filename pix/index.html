@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f8f7f3">
+  <meta name="description" content="Faça um pagamento via Pix para Carlos Lopes usando o Sicredi.">
+  <title>Pix | CL</title>
+  <style>
+    :root{color-scheme:light;--bg:#f8f7f3;--ink:#181818;--muted:#71716d;--line:#e6e4df;--card:#fff;--gold:#a6906c}
+    *{box-sizing:border-box}
+    html,body{min-height:100%;margin:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Arial,sans-serif;background:var(--bg);color:var(--ink);display:flex;flex-direction:column}
+    .top{height:76px;display:flex;align-items:center;justify-content:center}
+    .monogram{font-family:Georgia,serif;letter-spacing:-.11em;font-size:32px;font-weight:500;padding-right:4px}
+    main{flex:1;display:flex;justify-content:center;align-items:center;padding:24px 18px 52px}
+    .card{width:100%;max-width:410px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:36px 27px;box-shadow:0 15px 55px rgba(17,17,17,.045);text-align:center}
+    .mark{margin:0 auto 25px;background:var(--ink);width:64px;height:64px;border-radius:20px;display:grid;place-items:center}
+    .mark svg{width:34px;height:34px}
+    .eyebrow{text-transform:uppercase;letter-spacing:.17em;font-size:11px;font-weight:750;color:var(--gold);margin:0 0 12px}
+    h1{font-size:32px;line-height:1.1;letter-spacing:-1.1px;margin:0 0 12px;font-weight:720}
+    .lead{font-size:14px;line-height:1.65;color:var(--muted);margin:0 0 27px}
+    .account{text-align:left;border:1px solid var(--line);border-radius:14px;padding:15px 17px;background:#faf9f7;margin-bottom:16px}
+    .label{font-size:10px;letter-spacing:.1em;font-weight:750;color:var(--muted);text-transform:uppercase}
+    .account strong{display:block;margin:6px 0 0;font-size:15px;font-weight:650}
+    .account .bank{font-size:13px;color:var(--muted);margin-top:4px}
+    button{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;height:54px;background:var(--ink);color:white;border:0;border-radius:13px;font-size:15px;font-weight:680;cursor:pointer;transition:opacity .2s}
+    button:hover{opacity:.87}
+    button:disabled{background:#b9b7b2;cursor:not-allowed;opacity:1}
+    button svg{width:20px;height:20px}
+    .status{min-height:21px;color:#236d45;font-size:13px;margin:12px 0 0}
+    .status.error{color:#99532d}
+    .steps{border-top:1px solid var(--line);text-align:left;margin-top:22px;padding-top:19px}
+    .steps p{color:#555551;font-size:13px;line-height:1.65;margin:7px 0}
+    .steps b{color:var(--ink)}
+    .help{color:#8d8b85;font-size:11px;line-height:1.5;margin:23px 0 0}
+    footer{padding:0 16px 25px;text-align:center;color:#8b8983;font-size:11px;letter-spacing:.04em}
+    @media(max-width:400px){.top{height:64px}.card{padding:31px 22px}main{align-items:flex-start;padding-top:12px}h1{font-size:30px}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="monogram" aria-label="CL">CL</div></header>
+  <main>
+    <section class="card" aria-labelledby="heading">
+      <div class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M8.2 4.5 12 8.3l3.8-3.8M8.2 19.5l3.8-3.8 3.8 3.8M4.5 8.2 8.3 12l-3.8 3.8M19.5 8.2 15.7 12l3.8 3.8"/>
+          <path d="m9.2 10 2 2 2.7-2.7"/>
+        </svg>
+      </div>
+      <p class="eyebrow">Pagamento seguro pelo seu banco</p>
+      <h1 id="heading">Pagar com Pix</h1>
+      <p class="lead">Copie a chave Pix e escolha o valor do pagamento no aplicativo do seu banco.</p>
+      <div class="account">
+        <div class="label">Recebedor</div>
+        <strong>Carlos Lopes</strong>
+        <div class="bank">Sicredi · Pix com valor livre</div>
+      </div>
+      <button id="copy" type="button" disabled aria-describedby="status">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+        </svg>
+        <span id="label">Pix em configuração</span>
+      </button>
+      <p id="status" class="status error" role="status">A chave Pix ainda não foi cadastrada.</p>
+      <div class="steps">
+        <p><b>01.</b> Toque em “Copiar chave Pix”.</p>
+        <p><b>02.</b> Abra o app do seu banco e escolha Pix por chave.</p>
+        <p><b>03.</b> Cole a chave, digite o valor e confirme o nome do recebedor antes de pagar.</p>
+      </div>
+      <p class="help">O pagamento é feito no aplicativo do seu banco, nunca nesta página.</p>
+    </section>
+  </main>
+  <footer>CL · TECNOLOGIA QUE CONECTA</footer>
+  <script>
+    // PROPRIETÁRIO: cole APENAS uma chave Pix de recebimento abaixo.
+    // Por privacidade, prefira uma chave aleatória cadastrada no Sicredi.
+    // Exemplo: const CHAVE_PIX = "sua-chave-aleatoria";
+    const CHAVE_PIX = "";
+
+    const botao = document.getElementById("copy");
+    const label = document.getElementById("label");
+    const status = document.getElementById("status");
+    const chave = CHAVE_PIX.trim();
+
+    if (chave) {
+      botao.disabled = false;
+      label.textContent = "Copiar chave Pix";
+      status.textContent = "";
+      status.classList.remove("error");
+    }
+
+    async function copiar(texto) {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(texto);
+        return;
+      }
+      const campo = document.createElement("textarea");
+      campo.value = texto;
+      campo.style.position = "fixed";
+      campo.style.opacity = "0";
+      document.body.appendChild(campo);
+      campo.focus();
+      campo.select();
+      const ok = document.execCommand("copy");
+      campo.remove();
+      if (!ok) throw new Error("Não foi possível copiar");
+    }
+
+    botao.addEventListener("click", async () => {
+      if (!chave) return;
+      try {
+        await copiar(chave);
+        label.textContent = "Chave copiada!";
+        status.textContent = "Abra o aplicativo do banco para pagar.";
+        status.classList.remove("error");
+      } catch (_) {
+        status.textContent = "Não foi possível copiar automaticamente. Solicite a chave Pix ao recebedor.";
+        status.classList.add("error");
+      }
+    });
+  </script>
+</body>
+</html>
