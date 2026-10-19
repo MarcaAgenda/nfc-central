@@ -186,6 +186,7 @@ if(editTag!==null){tagEditor();return}
 if(selectedTag!==null){tagDetails();return}
 var items=data.tags.filter(function(t){return (t.id+" "+t.tipo+" "+t.pagina).toLowerCase().includes(filter.toLowerCase())});
 container.innerHTML='<div class="row"><div><h2 class="sectiontitle">Inventário de NFCs</h2><p class="muted">Identifique cada placa, adesivo e cartão separadamente.</p></div><button class="btn" data-action="newtag">+ Nova tag</button></div><div class="card section"><div class="row"><span class="badge grey">'+data.tags.length+' NFCs cadastradas</span><input class="filter" id="search" placeholder="Buscar identificação, tipo ou empresa" value="'+h(filter)+'"></div><div class="tableWrap" style="margin-top:15px">'+tableTags(items)+'</div></div>'+
+'<div class="card section"><h3 class="sectiontitle">Cadastrar várias NFCs de uma vez</h3><p class="muted">Exemplo: cadastre suas 50 tags ou 10 cartões de uma só vez, todos com identificadores exclusivos.</p><div class="row start"><div class="field" style="width:180px"><label>Tipo de NFC</label><select id="bulkType"><option value="adesivo">Tag adesiva</option><option value="cartao">Cartão</option><option value="placa">Plaquinha</option><option value="outro">Outro</option></select></div><div class="field" style="width:125px"><label>Quantidade</label><input id="bulkCount" type="number" min="1" max="200" value="50"></div><button class="btn secondary" data-action="bulktags">Criar lote</button></div></div>'+
 '<div class="notice section">Cada NFC deve ser gravada com o link <b>?tag=identificador</b>, nunca diretamente com o link do cliente. Assim, você pode reutilizar a mesma NFC e alterar a empresa pelo painel sem regravá-la. Não coloque informações privadas no campo de observação.</div>';
 document.getElementById("search").oninput=function(){filter=this.value;tags()};
 }
@@ -272,6 +273,17 @@ container.addEventListener("click",function(e){
 var b=e.target.closest("[data-action]");if(!b)return;var a=b.dataset.action,id=b.dataset.id;
 if(a==="newpage"){view="pages";editPage="__new__";render()}
 else if(a==="newtag"){view="tags";editTag="__new__";render()}
+else if(a==="bulktags"){
+var count=Number(document.getElementById("bulkCount").value),type=document.getElementById("bulkType").value,prefix={adesivo:"tag",cartao:"cartao",placa:"placa",outro:"nfc"}[type];
+if(!Number.isInteger(count)||count<1||count>200){toast("Escolha uma quantidade entre 1 e 200.");return}
+if(data.tags.length+count>5000){toast("Limite de 5.000 NFCs para este painel estático.");return}
+var n=1;
+for(var z=0;z<count;z++){
+var id;do{id=prefix+"-"+String(n++).padStart(3,"0")}while(data.tags.some(function(t){return t.id===id}));
+data.tags.push({id:id,tipo:type,pagina:"",status:"estoque",nota:""});
+}
+setDirty();toast(count+" NFCs adicionadas ao estoque. Publique no GitHub para salvá-las online.");render();
+}
 else if(a==="gotosettings"){tab("settings")}
 else if(a==="editpage"){view="pages";selectedPage=null;editPage=id;render()}
 else if(a==="edittag"){view="tags";selectedTag=null;editTag=id;render()}
