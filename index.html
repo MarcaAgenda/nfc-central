@@ -36,7 +36,7 @@ h1{font-size:clamp(37px,6vw,65px);letter-spacing:-2.5px;line-height:1.06;margin:
 (function(){
 "use strict";
 var app=document.getElementById("app");
-var q=new URLSearchParams(location.search), slug=(q.get("empresa")||"").toLowerCase().trim(),acao=q.get("acao")||"";
+var q=new URLSearchParams(location.search), slug=(q.get("empresa")||"").toLowerCase().trim(),tag=(q.get("tag")||"").toLowerCase().trim(),acao=q.get("acao")||"";
 if(q.has("admin")){location.replace(new URL("painel/",location.href).href);return}
 var base=new URL("./",location.href).href;
 var titles={google:"Avaliar no Google",instagram:"Instagram",whatsapp:"WhatsApp",maps:"Localização",menu:"Cardápio",booking:"Agendamento",website:"Site",pix:"Pagamento Pix"};
@@ -47,10 +47,13 @@ function safe(u){try{var x=new URL(String(u));return x.protocol==="https:"||x.pr
 function theme(t){return ["blue","dark","orange","sand","green","purple"].includes(t)?t:"blue"}
 function home(){app.innerHTML='<div class="hero"><div class="eyebrow">PÁGINAS INTELIGENTES PARA NFC E QR</div><h1>Um toque.<br><em>Infinitas conexões.</em></h1><p class="subtitle">Conecte o público ao Google, Instagram, WhatsApp, cardápio e muito mais. Atualize os links sem regravar a placa.</p><a class="primary" href="?empresa=demo">Ver demonstração ↗</a></div><div class="features"><div class="feature"><i>◈</i><b>Endereço permanente</b><p>Um link único para cada placa ou cartão.</p></div><div class="feature"><i>↗</i><b>Atualização online</b><p>Altere os destinos pelo painel do NFC Central.</p></div><div class="feature"><i>▣</i><b>Modelos personalizáveis</b><p>Monte uma página adequada a cada tipo de negócio.</p></div></div>'}
 function notFound(){app.className="shell";app.innerHTML='<section class="empty"><h2>Página indisponível</h2><p>Confira o endereço da placa ou fale com o responsável.</p></section>'}
-if(!slug){home();return}
+if(!slug&&!tag){home();return}
 app.className="profileWrap";app.innerHTML='<section class="profile"><p>Carregando página...</p></section>';
 fetch(new URL("data/clientes.json",base).href+"?t="+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw Error("Erro ao carregar");return r.json()}).then(function(data){
-var c=(data.clientes||[]).find(function(x){return x.slug===slug&&x.status!=="inativo"});if(!c){notFound();return}
+var physicalTag=tag?(data.tags||[]).find(function(x){return x.id===tag}):null;
+if(tag&&(!physicalTag||physicalTag.status!=="ativa"||!physicalTag.pagina)){notFound();return}
+var finalSlug=physicalTag?physicalTag.pagina:slug;
+var c=(data.clientes||[]).find(function(x){return x.slug===finalSlug&&x.status!=="inativo"});if(!c){notFound();return}
 var ln=c.links||{};
 if(acao&&keys.includes(acao)&&safe(ln[acao])){location.replace(ln[acao]);return}
 var buttons=keys.filter(function(k){return safe(ln[k])}).map(function(k){return {label:titles[k],url:ln[k],tipo:k}});
