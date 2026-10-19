@@ -1,5 +1,5 @@
 {
-  "versao": 1,
+  "versao": 2,
   "clientes": [
     {
       "nome": "Demonstração NFC",
@@ -17,5 +17,6 @@
         "website": ""
       }
     }
-  ]
+  ],
+  "tags": []
 }
